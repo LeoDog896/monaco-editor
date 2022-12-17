@@ -16,7 +16,6 @@ generateTestSamplesTask();
 
 const SERVER_ROOT = path.normalize(path.join(REPO_ROOT, '../'));
 createSimpleServer(SERVER_ROOT, 8080);
-createSimpleServer(SERVER_ROOT, 8088);
 
 function generateTestSamplesTask() {
 	const sampleNames = fs.readdirSync(path.join(REPO_ROOT, 'test/manual/samples'));
@@ -54,10 +53,9 @@ function generateTestSamplesTask() {
 	ensureDir(path.dirname(destination));
 	fs.writeFileSync(destination, prefix + JSON.stringify(samples, null, '\t') + suffix);
 
-	/** @type {{ chapter: string; name: string; id: string; path: string; }[]} */
-	const PLAY_SAMPLES = require(path.join(WEBSITE_GENERATED_PATH, 'all.js')).PLAY_SAMPLES;
-	/** @type {{ path: string; name: string; }[]} */
-	const locations = [];
+	const PLAY_SAMPLES: { chapter: string; name: string; id: string; path: string }[] =
+		require(path.join(WEBSITE_GENERATED_PATH, 'all.js')).PLAY_SAMPLES;
+	const locations: { path: string; name: string }[] = [];
 	for (let i = 0; i < PLAY_SAMPLES.length; i++) {
 		const sample = PLAY_SAMPLES[i];
 		const sampleId = sample.id;
@@ -165,7 +163,8 @@ function createSimpleServer(rootDir: string, port: number) {
 				return staticServer.handle(request, response);
 			});
 			server.listen(port, '127.0.0.1', () => {
-				console.log(`Running at http://127.0.0.1:${port}`);
+				console.log(`Running at http://127.0.0.1:${port}.`);
+				console.log(`To visit the site, go to http://127.0.0.1:${port}/monaco-editor-website/`);
 			});
 		});
 }

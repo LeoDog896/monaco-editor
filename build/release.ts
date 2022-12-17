@@ -7,7 +7,7 @@ import path = require('path');
 import fs = require('fs');
 import { REPO_ROOT, readFiles, writeFiles, IFile } from '../build/utils';
 import { removeDir } from '../build/fs';
-import ts = require('typescript');
+import ts from 'typescript';
 import { generateMetadata } from './releaseMetadata';
 
 removeDir(`release`);
@@ -43,8 +43,7 @@ generateMetadata();
 })();
 
 (() => {
-	/** @type {IFile[]} */
-	let otherFiles = [];
+	let otherFiles: IFile[] = [];
 
 	otherFiles = otherFiles.concat(readFiles('README.md', { base: '' }));
 	otherFiles = otherFiles.concat(readFiles('CHANGELOG.md', { base: '' }));

@@ -177,7 +177,6 @@ glob('../src/basic-languages/*/*.contribution.ts', { cwd: __dirname }, function 
 
 	// ESM
 	{
-		/** @type {string[]} */
 		const entryPoints = [
 			'src/basic-languages/monaco.contribution.ts',
 			'src/basic-languages/_.contribution.ts'

@@ -26,7 +26,7 @@ export function tsc(_projectPath: string) {
 	);
 	console.log(`Compiled ${_projectPath}`);
 	if (res.status !== 0) {
-		process.exit(res.status);
+		process.exit(res.status || 1);
 	}
 }
 
@@ -185,7 +185,7 @@ export function buildAMD(options: {
 function getGitVersion() {
 	const git = path.join(REPO_ROOT, '.git');
 	const headPath = path.join(git, 'HEAD');
-	let head;
+	let head: string;
 
 	try {
 		head = fs.readFileSync(headPath, 'utf8').trim();
@@ -213,7 +213,7 @@ function getGitVersion() {
 	}
 
 	const packedRefsPath = path.join(git, 'packed-refs');
-	let refsRaw;
+	let refsRaw: string;
 
 	try {
 		refsRaw = fs.readFileSync(packedRefsPath, 'utf8').trim();
@@ -222,11 +222,13 @@ function getGitVersion() {
 	}
 
 	const refsRegex = /^([0-9a-f]{40})\s+(.+)$/gm;
-	let refsMatch;
-	const refs = {};
+	let refsMatch: string[] | null = [];
+	const refs: Record<string, string> = {};
 
 	while ((refsMatch = refsRegex.exec(refsRaw))) {
-		refs[refsMatch[2]] = refsMatch[1];
+		if (refsMatch !== null) {
+			refs[refsMatch[2]] = refsMatch[1];
+		}
 	}
 
 	return refs[ref];

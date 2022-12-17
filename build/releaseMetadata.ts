@@ -21,7 +21,7 @@ const customFeatureLabels = {
 	'vs/editor/standalone/browser/quickAccess/standaloneCommandsQuickAccess': 'quickCommand',
 	'vs/editor/standalone/browser/quickAccess/standaloneGotoSymbolQuickAccess': 'quickOutline',
 	'vs/editor/standalone/browser/quickAccess/standaloneHelpQuickAccess': 'quickHelp'
-};
+} as const;
 
 function getBasicLanguages(): Promise<{ label: string; entry: string }[]> {
 	return new Promise((resolve, reject) => {
@@ -94,7 +94,7 @@ function getAdvancedLanguages(): Promise<
 		return result;
 	});
 
-	function checkFileExists(moduleName) {
+	function checkFileExists(moduleName: string) {
 		const filePath = path.join(REPO_ROOT, 'release/esm', `${moduleName}.js`);
 		if (!fs.existsSync(filePath)) {
 			console.error(`Could not find ${filePath}.`);
@@ -226,9 +226,9 @@ function getFeatures(): { label: string; entry: string | string[] }[] {
 	});
 
 	let result: { label: string; entry: any }[] = features.map((feature) => {
-		/** @type {string} */ let label;
-		if (customFeatureLabels[feature]) {
-			label = customFeatureLabels[feature];
+		let label: string;
+		if (feature in customFeatureLabels) {
+			label = customFeatureLabels[feature as keyof typeof customFeatureLabels];
 		} else {
 			const m1 = feature.match(/^vs\/editor\/contrib\/([^\/]+)/);
 			if (m1) {

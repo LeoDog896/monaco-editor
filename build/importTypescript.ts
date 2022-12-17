@@ -192,6 +192,6 @@ function escapeText(text) {
 	return resultPieces.join('');
 }
 
-function stripSourceMaps(str) {
+function stripSourceMaps(str: string) {
 	return str.replace(/\/\/# sourceMappingURL[^\n]+/gm, '');
 }

@@ -11,8 +11,7 @@ const REPO_ROOT = path.join(__dirname, '../');
 const existingDirCache = new Set();
 
 export function ensureDir(dirname: string) {
-	/** @type {string[]} */
-	const dirs = [];
+	const dirs: string[] = [];
 
 	while (dirname.length > REPO_ROOT.length) {
 		dirs.push(dirname);

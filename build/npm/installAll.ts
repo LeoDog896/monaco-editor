@@ -26,7 +26,7 @@ for (const file of files) {
 	npmInstall(path.dirname(file));
 }
 
-function npmInstall(location) {
+function npmInstall(location: string) {
 	const stdio = 'inherit';
 	const args = ['install'];
 
